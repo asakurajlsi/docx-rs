@@ -8,8 +8,7 @@ pub trait TocKeyGenerator {
     fn generate() -> String {
         use std::sync::atomic::Ordering;
 
-        let id = TOC_KEY.load(Ordering::Relaxed);
-        TOC_KEY.store(id + 1, Ordering::Relaxed);
+        let id = TOC_KEY.fetch_add(1, Ordering::Relaxed);
         format!("_Toc{:08}", id)
     }
 }

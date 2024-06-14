@@ -8,8 +8,7 @@ static FOOTER_ID: AtomicUsize = AtomicUsize::new(1);
 pub fn generate_pic_id() -> usize {
     use std::sync::atomic::Ordering;
 
-    let id = FOOTER_ID.load(Ordering::Relaxed);
-    FOOTER_ID.store(id.wrapping_add(1), Ordering::Relaxed);
+    let id = FOOTER_ID.fetch_add(1, Ordering::Relaxed);
     id
 }
 

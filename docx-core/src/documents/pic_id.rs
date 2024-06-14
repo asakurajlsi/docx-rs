@@ -7,8 +7,7 @@ static PIC_ID: AtomicUsize = AtomicUsize::new(1);
 pub fn generate_pic_id() -> usize {
     use std::sync::atomic::Ordering;
 
-    let id = PIC_ID.load(Ordering::Relaxed);
-    PIC_ID.store(id.wrapping_add(1), Ordering::Relaxed);
+    let id = PIC_ID.fetch_add(1, Ordering::Relaxed);
     id
 }
 

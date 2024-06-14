@@ -7,8 +7,7 @@ static HYPERLINK_ID: AtomicUsize = AtomicUsize::new(1);
 pub fn generate_hyperlink_id() -> usize {
     use std::sync::atomic::Ordering;
 
-    let id = HYPERLINK_ID.load(Ordering::Relaxed);
-    HYPERLINK_ID.store(id.wrapping_add(1), Ordering::Relaxed);
+    let id = HYPERLINK_ID.fetch_add(1, Ordering::Relaxed);
     id
 }
 
