@@ -7,8 +7,7 @@ static BOOKMARK_ID: AtomicUsize = AtomicUsize::new(1);
 pub fn generate_bookmark_id() -> usize {
     use std::sync::atomic::Ordering;
 
-    let id = BOOKMARK_ID.load(Ordering::Relaxed);
-    BOOKMARK_ID.store(id.wrapping_add(1), Ordering::Relaxed);
+    let id = BOOKMARK_ID.fetch_add(1, Ordering::Relaxed);
     id
 }
 
@@ -16,7 +15,6 @@ pub fn generate_bookmark_id() -> usize {
 pub fn reset_bookmark_id() {
     use std::sync::atomic::Ordering;
 
-    BOOKMARK_ID.load(Ordering::Relaxed);
     BOOKMARK_ID.store(1, Ordering::Relaxed);
 }
 

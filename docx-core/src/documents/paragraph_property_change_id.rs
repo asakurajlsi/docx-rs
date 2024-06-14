@@ -8,8 +8,7 @@ pub trait ParagraphPropertyChangeId {
     fn generate(&self) -> String {
         use std::sync::atomic::Ordering;
 
-        let id = HISTORY_ID.load(Ordering::Relaxed);
-        HISTORY_ID.store(id + 1, Ordering::Relaxed);
+        let id = HISTORY_ID.fetch_add(1, Ordering::Relaxed);
         format!("{}", id)
     }
 }
